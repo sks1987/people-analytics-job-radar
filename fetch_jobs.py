@@ -133,6 +133,69 @@ def fetch_adzuna(country: str, keyword: str, results_per_page: int = 20) -> list
 # ---------------------------------------------------------------------------
 # Source: Jooble (UAE)
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Source: Bundesagentur für Arbeit (Germany) — supplementary source
+# ---------------------------------------------------------------------------
+# NOT an officially published API. This calls the same REST endpoint the
+# Bundesagentur's own "Jobsuche" app uses internally, documented by the
+# open-data project bundesAPI: https://github.com/bundesAPI/jobsuche-api
+# No personal key needed — 'jobboerse-jobsuche' is the app's own shared
+# client ID, not a secret. Because this is unofficial, it could change or
+# break without notice, and the exact field names below are a best-effort
+# reading of partial docs, not fully confirmed — the debug line will tell
+# you on the first run if they're wrong.
+
+ARBEITSAGENTUR_URL = "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
+ARBEITSAGENTUR_HEADERS = {
+    "User-Agent": "Jobsuche/2.9.2 (de.arbeitsagentur.jobboerse; build:1077; iOS 15.1.0) Alamofire/5.4.4",
+    "Host": "rest.arbeitsagentur.de",
+    "X-API-Key": "jobboerse-jobsuche",
+    "Connection": "keep-alive",
+}
+
+
+def fetch_arbeitsagentur(keyword: str, results_size: int = 50) -> list:
+    params = {
+        "angebotsart": "1",
+        "page": "1",
+        "pav": "false",
+        "size": str(results_size),
+        "umkreis": "200",
+        "was": keyword,
+        "wo": "Deutschland",
+    }
+    try:
+        resp = requests.get(ARBEITSAGENTUR_URL, headers=ARBEITSAGENTUR_HEADERS, params=params, timeout=20)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        print(f"[arbeitsagentur] {keyword}: request failed — {e}", file=sys.stderr)
+        return []
+
+    results = resp.json().get("stellenangebote", [])
+    if results and not any(k in results[0] for k in ("titel", "beruf")):
+        print(f"[arbeitsagentur] unexpected fields, first result keys: {list(results[0].keys())}", file=sys.stderr)
+
+    jobs = []
+    for item in results:
+        title = item.get("titel") or item.get("beruf") or ""
+        employer = item.get("arbeitgeber", "")
+        ort = (item.get("arbeitsort") or {}).get("ort", "")
+        refnr = item.get("refnr", "")
+        if not matches_intersection(f"{title} {employer}"):
+            continue
+        jobs.append({
+            "role": clean_text(title, 120),
+            "company": clean_text(employer) or "Not listed",
+            "location": clean_text(ort) or "Germany",
+            "description": clean_text(item.get("beruf", "")) or "See listing for details.",
+            "apply_url": f"https://www.arbeitsagentur.de/jobsuche/jobdetail/{refnr}" if refnr else ARBEITSAGENTUR_URL,
+            "region": "eu",
+            "source": "Bundesagentur für Arbeit",
+        })
+    return jobs
+
+
+</parameter>
 
 def fetch_jooble(keyword: str, location: str = JOOBLE_LOCATION) -> list:
     if not JOOBLE_API_KEY:
@@ -235,6 +298,9 @@ def main() -> None:
     for kw in SEARCH_KEYWORDS:
         uae_jobs.extend(fetch_jooble(kw))
 
+  for kw in SEARCH_KEYWORDS:
+        eu_jobs.extend(fetch_arbeitsagentur(kw))
+        
     for country in ADZUNA_COUNTRIES:
         for kw in SEARCH_KEYWORDS:
             eu_jobs.extend(fetch_adzuna(country, kw))
