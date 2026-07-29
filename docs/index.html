@@ -8,439 +8,1867 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0E1B26;
-    --panel:#152838;
-    --panel-line:#28405a;
-    --parchment:#F4EFE3;
-    --parchment-dim:#E7DFCB;
-    --amber:#C99A3B;
-    --amber-dim:#8a6b2a;
-    --teal:#3E8F7C;
-    --rose:#B85C4E;
-    --ink-text:#1B2430;
-    --muted:#7C8798;
-    --muted-warm:#8B8574;
+    --ink:#0E1B26; --panel:#152838; --panel-line:#28405a;
+    --parchment:#F4EFE3; --parchment-dim:#E7DFCB;
+    --amber:#C99A3B; --amber-dim:#8a6b2a;
+    --teal:#3E8F7C; --rose:#B85C4E;
+    --ink-text:#1B2430; --muted:#7C8798; --muted-warm:#8B8574;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--ink);
-    color:var(--parchment);
-    font-family:'IBM Plex Sans',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{margin:0;background:var(--ink);color:var(--parchment);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
   a{color:inherit;}
   .mono{font-family:'IBM Plex Mono',monospace;}
-
-  /* ---------- Header ---------- */
-  header{
-    padding:56px 6vw 40px;
-    border-bottom:1px solid var(--panel-line);
-    background:
-      radial-gradient(ellipse at 15% 0%, rgba(201,154,59,0.12), transparent 55%),
-      var(--ink);
-  }
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--amber);
-    margin:0 0 14px;
-  }
-  h1{
-    margin:0 0 14px;
-    font-size:clamp(32px,5vw,52px);
-    font-weight:700;
-    letter-spacing:-0.01em;
-    line-height:1.05;
-  }
-  header p.lede{
-    max-width:640px;
-    color:#C7CFDA;
-    font-size:16px;
-    line-height:1.6;
-    margin:0 0 28px;
-  }
-  .status-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    align-items:center;
-  }
-  .status-chip{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    padding:7px 12px;
-    border:1px solid var(--panel-line);
-    border-radius:20px;
-    color:#AEB8C6;
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-  }
+  header{padding:56px 6vw 40px;border-bottom:1px solid var(--panel-line);
+    background:radial-gradient(ellipse at 15% 0%, rgba(201,154,59,0.12), transparent 55%), var(--ink);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 14px;}
+  h1{margin:0 0 14px;font-size:clamp(32px,5vw,52px);font-weight:700;letter-spacing:-0.01em;line-height:1.05;}
+  header p.lede{max-width:640px;color:#C7CFDA;font-size:16px;line-height:1.6;margin:0 0 28px;}
+  .status-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .status-chip{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 12px;border:1px solid var(--panel-line);border-radius:20px;color:#AEB8C6;display:inline-flex;align-items:center;gap:7px;}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;}
-
-  /* ---------- Disclaimer ---------- */
-  .disclaimer{
-    margin:0 6vw;
-    margin-top:28px;
-    padding:18px 22px;
-    background:rgba(201,154,59,0.08);
-    border:1px solid rgba(201,154,59,0.35);
-    border-radius:10px;
-    font-size:14px;
-    line-height:1.6;
-    color:#E8DEC4;
-  }
+  .disclaimer{margin:28px 6vw 0;padding:18px 22px;background:rgba(201,154,59,0.08);border:1px solid rgba(201,154,59,0.35);border-radius:10px;font-size:14px;line-height:1.6;color:#E8DEC4;}
   .disclaimer strong{color:var(--amber);}
-
-  /* ---------- Region sections ---------- */
   main{padding:52px 6vw 20px;}
   .region{margin-bottom:56px;}
-  .region-head{
-    display:flex;
-    align-items:baseline;
-    gap:14px;
-    margin-bottom:22px;
-    padding-bottom:14px;
-    border-bottom:2px solid var(--panel-line);
-  }
+  .region-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-bottom:14px;border-bottom:2px solid var(--panel-line);}
   .region-head.uae{border-bottom-color:var(--teal);}
   .region-head.eu{border-bottom-color:var(--rose);}
-  .region-head h2{
-    font-size:22px;
-    margin:0;
-    font-weight:700;
-  }
-  .region-count{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    color:var(--muted);
-  }
-
-  .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
-    gap:18px;
-  }
-
-  .card{
-    background:var(--parchment);
-    color:var(--ink-text);
-    border-radius:12px;
-    padding:22px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    position:relative;
-    border:1px solid var(--parchment-dim);
-  }
-  .card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
-  }
-  .role{
-    font-size:17px;
-    font-weight:700;
-    line-height:1.3;
-    margin:0 0 4px;
-  }
-  .company{
-    font-size:13px;
-    color:var(--muted-warm);
-    font-weight:500;
-  }
-  .loc{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;
-    color:var(--muted-warm);
-    margin-top:2px;
-  }
-
-  /* fit badge: overlapping rings = HR x Analytics intersection */
-  .fit-badge{
-    flex:none;
-    width:46px;height:30px;
-    position:relative;
-  }
-  .fit-badge span{
-    position:absolute;
-    top:2px;
-    width:26px;height:26px;
-    border-radius:50%;
-    mix-blend-mode:multiply;
-    opacity:.75;
-  }
-  .fit-badge .hr{left:0;background:var(--teal-badge,#3E8F7C);}
-  .fit-badge .an{left:16px;background:var(--amber);}
-  .region-head.eu ~ .cards .fit-badge .hr{background:var(--rose);}
-
-  .desc{
-    font-size:13.5px;
-    line-height:1.55;
-    color:#3A4250;
-    margin:0;
-  }
-
-  .meta-line{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    font-size:12px;
-    padding-top:10px;
-    border-top:1px dashed var(--parchment-dim);
-  }
+  .region-head h2{font-size:22px;margin:0;font-weight:700;}
+  .region-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;}
+  .card{background:var(--parchment);color:var(--ink-text);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--parchment-dim);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .role{font-size:17px;font-weight:700;line-height:1.3;margin:0 0 4px;}
+  .company{font-size:13px;color:var(--muted-warm);font-weight:500;}
+  .loc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-warm);margin-top:2px;}
+  .desc{font-size:13.5px;line-height:1.55;color:#3A4250;margin:0;}
+  .meta-line{display:flex;flex-direction:column;gap:6px;font-size:12px;padding-top:10px;border-top:1px dashed var(--parchment-dim);}
   .meta-row{display:flex;gap:8px;}
-  .meta-label{
-    font-family:'IBM Plex Mono',monospace;
-    color:var(--muted-warm);
-    min-width:88px;
-    flex:none;
-  }
+  .meta-label{font-family:'IBM Plex Mono',monospace;color:var(--muted-warm);min-width:88px;flex:none;}
   .meta-value{color:var(--ink-text);}
   .meta-value.unavailable{color:#9A6B4F;font-style:italic;}
-
-  .card-foot{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-top:4px;
-  }
-  .source-tag{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:10.5px;
-    color:var(--muted-warm);
-  }
-  .apply-btn{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    font-weight:600;
-    text-decoration:none;
-    background:var(--ink);
-    color:var(--parchment);
-    padding:9px 16px;
-    border-radius:7px;
-    white-space:nowrap;
-    transition:background .15s ease;
-  }
-  .apply-btn:hover{background:var(--amber-dim);}
-
-  /* ---------- Automation note ---------- */
-  .automation-note{
-    margin:20px 6vw 60px;
-    padding:28px 30px;
-    background:var(--panel);
-    border:1px solid var(--panel-line);
-    border-radius:12px;
-  }
-  .automation-note h3{
-    margin:0 0 10px;
-    font-size:17px;
-    color:var(--amber);
-  }
-  .automation-note p{
-    font-size:13.5px;
-    line-height:1.65;
-    color:#C7CFDA;
-    margin:0 0 12px;
-    max-width:760px;
-  }
-  .automation-note ul{
-    margin:0;
-    padding-left:18px;
-    font-size:13.5px;
-    line-height:1.7;
-    color:#C7CFDA;
-  }
-
-  footer{
-    padding:24px 6vw 40px;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;
-    color:var(--muted);
-    border-top:1px solid var(--panel-line);
-  }
-
-  @media (max-width:560px){
-    header{padding:40px 5vw 32px;}
-    main{padding:36px 5vw 10px;}
-    .disclaimer{margin:24px 5vw 0;}
-    .automation-note{margin:20px 5vw 48px;}
-  }
+  .card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px;}
+  .source-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted-warm);}
+  .apply-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--parchment);padding:9px 16px;border-radius:7px;white-space:nowrap;}
+  .empty{font-size:13.5px;color:var(--muted);font-style:italic;}
+  .automation-note{margin:20px 6vw 60px;padding:28px 30px;background:var(--panel);border:1px solid var(--panel-line);border-radius:12px;}
+  .automation-note h3{margin:0 0 10px;font-size:17px;color:var(--amber);}
+  .automation-note p{font-size:13.5px;line-height:1.65;color:#C7CFDA;margin:0 0 12px;max-width:760px;}
+  footer{padding:24px 6vw 40px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);border-top:1px solid var(--panel-line);}
+  @media (max-width:560px){header{padding:40px 5vw 32px;}main{padding:36px 5vw 10px;}.disclaimer{margin:24px 5vw 0;}.automation-note{margin:20px 5vw 48px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <p class="eyebrow">HR × Analytics / Data Science &mdash; UAE &amp; Germany/EU</p>
+  <p class="eyebrow">HR &times; Analytics / Data Science &mdash; UAE &amp; Germany/EU</p>
   <h1>People Analytics Job Radar</h1>
-  <p class="lede">A working sample of roles sitting at the intersection of HR, People/Workforce Analytics and HR Transformation &mdash; pulled from public job boards for review before this becomes an automated daily feed.</p>
+  <p class="lede">Auto-refreshed daily via GitHub Actions. Pulls roles at the intersection of HR, People/Workforce Analytics and HR Transformation from Adzuna (Germany/EU) and Jooble (UAE).</p>
   <div class="status-row">
-    <span class="status-chip"><span class="dot"></span>Snapshot taken 29 Jul 2026</span>
-    <span class="status-chip">6 roles &middot; 2 regions</span>
-    <span class="status-chip">Manually curated, not yet live-automated</span>
+    <span class="status-chip"><span class="dot"></span>Last refreshed 29 Jul 2026, 11:46 UTC</span>
+    <span class="status-chip">93 roles &middot; 2 regions</span>
   </div>
 </header>
 
 <div class="disclaimer">
-  <strong>Status check before you rely on this:</strong> this page is a one-time, hand-pulled sample built from a live search today &mdash; it is <strong>not yet</strong> refreshing on its own. It also has an honest gap: none of the postings below publish a recruiter's direct email address (this is normal for Indeed/Glassdoor/company-careers postings). See the note at the bottom for what it takes to make this a real, self-updating daily page, and how the "recruiter contact" field would realistically work.
+  <strong>Read this before relying on the contact field:</strong> neither data source used here publishes a recruiter's direct email address on job postings &mdash; that's normal, not a bug in this feed. Where a source names a recruiter, agency, or hiring team, that name is shown; otherwise the field honestly says so. Nothing here is invented.
 </div>
 
 <main>
-
   <div class="region">
     <div class="region-head uae">
       <h2>United Arab Emirates</h2>
-      <span class="region-count">4 roles</span>
+      <span class="region-count">0 roles</span>
     </div>
     <div class="cards">
-
-      <div class="card">
-        <div class="card-top">
-          <div>
-            <p class="role">HR Specialist &mdash; HR Data &amp; Analytics</p>
-            <p class="company">The Emirates Group</p>
-            <p class="loc mono">Dubai, UAE</p>
-          </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
-        </div>
-        <p class="desc">Sits inside the HR Data &amp; Analytics function, helping build a self-service analytics model and working with the wider HR team on data risk and compliance.</p>
-        <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
-        </div>
-        <div class="card-foot">
-          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=8bd9d26d464225e4&bb=DOOV92PD30_PREeO0eN_DaYYsEdA8yR05AeADnfhpP_Fcie5ydut5483ct0vs3DTiR1qNWHQE-Cxz8cnXAnN_ln0hQ85ZHtJOdKFDfb9O-nd5FxX_2kTy4OLZr1Oqgih&xkcb=SoBL67M3gWo8b4WTT50JbzkdCdPP&fccid=9ef97ff407fc27fd&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div>
-            <p class="role">Graduate Analyst &mdash; Employee Benefits Analytics &amp; Risk Modelling</p>
-            <p class="company">Howden Group Holdings</p>
-            <p class="loc mono">Dubai, UAE</p>
-          </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
-        </div>
-        <p class="desc">Graduate seat on the Employee Benefits team, blending people data, risk and business strategy to support how organisations design and manage insurance programmes.</p>
-        <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
-        </div>
-        <div class="card-foot">
-          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=e6d3a4b7549a9e09&bb=DOOV92PD30_PREeO0eN_De6-myli9nF12PiVaTZ82xtNd28Uuzg-mgyS437cEBmhuLW3u5xXhs2EDlEl8FyfM4Sa2aDOXpv_uBHhN0Sb3I9G7nRNmjoosNYP71LzaUbN&xkcb=SoBY67M3gWo8b52TT50KbzkdCdPP&fccid=9c112f8961616152&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div>
-            <p class="role">Management Trainee &mdash; HR Analyst</p>
-            <p class="company">Elena | HR Recruitment (agency)</p>
-            <p class="loc mono">Dubai, UAE</p>
-          </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
-        </div>
-        <p class="desc">Entry-level trainee role posted by a Dubai recruitment agency &mdash; covers HR project support, dashboard/report building and a stated interest in compensation analytics.</p>
-        <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Agency posting &mdash; no direct email published</span></div>
-        </div>
-        <div class="card-foot">
-          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=7af3caf08d5e164b&bb=DOOV92PD30_PREeO0eN_DbxX-TBXXLj9Nm9xwWoguGOyew8MnqrVnUb2SSZfMqsg8OO-dKr4ZpOT6v1LhKUILr0f9klQT9BtP7PL164sTKiRGMUNHay_XS_hNXItCeox&xkcb=SoD_67M3gWo8b52TT50PbzkdCdPP&fccid=dd616958bd9ddc12&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <div>
-            <p class="role">People &amp; Culture Intern</p>
-            <p class="company">Huda Beauty</p>
-            <p class="loc mono">Dubai, UAE &middot; 6-month contract</p>
-          </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
-        </div>
-        <p class="desc">HR generalist internship covering onboarding and HRIS upkeep, with direct exposure to people-analytics work such as turnover, engagement and headcount reporting.</p>
-        <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
-        </div>
-        <div class="card-foot">
-          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=4d0c4220cc44c7a2&bb=DOOV92PD30_PREeO0eN_DY6ufWpUF63lFGMZdLJGA9NS3oSb0-zBfDhG4Fh68FPSIVPiYP0snd_OO1vw-lLPXvN9vIfbWUosC6fVkoyXzLnHx1CWNaMQb6MvyVz_iwmx&xkcb=SoDs67M3gWo8b52TT50LbzkdCdPP&fccid=1e8e0b35ecae0d7e&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
-        </div>
-      </div>
-
+      <p class="empty">No matching roles found in today's pull.</p>
     </div>
   </div>
 
   <div class="region">
     <div class="region-head eu">
       <h2>Germany &amp; EU</h2>
-      <span class="region-count">2 roles</span>
+      <span class="region-count">93 roles</span>
     </div>
     <div class="cards">
-
+      
       <div class="card">
         <div class="card-top">
           <div>
-            <p class="role">People Analytics Manager &mdash; M+A GAS Region</p>
-            <p class="company">TUI Group</p>
-            <p class="loc mono">Berlin, Germany &middot; Hybrid</p>
+            <p class="role">People Analytics &amp; Automation Lead</p>
+            <p class="company">Jobgether</p>
+            <p class="loc mono">Deutschland</p>
           </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
         </div>
-        <p class="desc">Owns people-analytics and reporting standards across Germany, Austria and Switzerland; central link between local entities and the group People Analytics team, building Tableau/Python dashboards and forecasting workforce needs.</p>
+        <p class="desc">This position is listed on behalf of a partner company, who manages all applications and next steps. Our partner is looking for a People Analytics &amp; Automation Lead based in Germany. This role offers the opportunity to …</p>
         <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
         </div>
         <div class="card-foot">
-          <span class="source-tag">Glassdoor &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://www.glassdoor.com/job-listing/people-analytics-manager-m-a-gas-region-tui-group-JV_IC2622109_KO0,39_KE40,49.htm?jl=1009927450434" target="_blank" rel="noopener">Apply &rarr;</a>
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5809321004?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
         </div>
       </div>
 
       <div class="card">
         <div class="card-top">
           <div>
-            <p class="role">Senior Analyst, People Analytics</p>
-            <p class="company">Delivery Hero</p>
-            <p class="loc mono">Berlin, Germany</p>
+            <p class="role">People Analytics Specialist (m/f/d)</p>
+            <p class="company">Agile Robots SE</p>
+            <p class="loc mono">Deutschland</p>
           </div>
-          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
         </div>
-        <p class="desc">Senior seat on the central People Analytics team &mdash; maintains the HR data warehouse, standardises People KPIs across markets and applies data-science methods for CHROs and leadership.</p>
+        <p class="desc">About the role Our People &amp; Talent team is looking for a People Analytics Specialist (m/f/d) to help build and scale our people and talent analytics capability. This is a hands-on builder role for someone who enjoys cre…</p>
         <div class="meta-line">
-          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
         </div>
         <div class="card-foot">
-          <span class="source-tag">Delivery Hero Careers &middot; captured 29 Jul 2026</span>
-          <a class="apply-btn" href="https://careers.deliveryhero.com/job/senior-analyst-people-analytics-all-genders-in-berlin-germany-jid-1837" target="_blank" rel="noopener">Apply &rarr;</a>
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5806560495?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Head of Total Rewards &amp; People Analytics (m/w/d)</p>
+            <p class="company">Eberspächer Gruppe GmbH &amp; Co. KG</p>
+            <p class="loc mono">Esslingen (Kreis), Baden-Württemberg</p>
+          </div>
+        </div>
+        <p class="desc">Ob Fahrzeugheizungen, Klimasysteme, Fahrzeugelektronik oder Abgastechnik: Als einer der führenden Systementwickler und -lieferanten der globalen Automobilindustrie steht die Eberspächer Gruppe für bahnbrechende Lösungen…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5769559193?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">(Senior) Data Scientist, People Analytics &amp; Intelligence (m/f/d)</p>
+            <p class="company">Fresenius</p>
+            <p class="loc mono">Deutschland</p>
+          </div>
+        </div>
+        <p class="desc">We&#x27;re looking for a pragmatic, hands-on Data Scientist to join our People Analytics &amp; Intelligence team and drive the data-driven transformation of our HR organization. You&#x27;re the person who doesn&#x27;t just build models bu…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5801877878?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Expert (all genders) Compensation, Benefits &amp; HR People Analytics Germany &amp; Austria</p>
+            <p class="company">BNP Paribas Corporate &amp; Institutional Banking</p>
+            <p class="loc mono">Frankfurt am Main, Hessen</p>
+          </div>
+        </div>
+        <p class="desc">Expert (all genders) Compensation, Benefits &amp; HR People Analytics Germany &amp; Austria In Frankfurt suchen wir dich in Vollzeit oder Teilzeit, befristet für 2 Jahre als Expert (all genders) Compensation, Benefits &amp; HR Peop…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5792481643?se=NM2iK0OL8RGZmYFlEP0Odw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=02B8EBF51111591438843431F6815FD9EFCF3309" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Werkstudent (m/w/d) People Analytics &amp; AI Reporting (100% remote)</p>
+            <p class="company">Jobs Craftview</p>
+            <p class="loc mono">Gallus, Frankfurt am Main</p>
+          </div>
+        </div>
+        <p class="desc">100% Remote · 15-20 Stunden / Woche · Start: ab sofort Deine Mission: Du willst HR Controlling nicht verwalten, sondern gestalten und dabei zeigen, wie viel mehr aus HR-Daten herausgeholt werden kann, wenn man KI und Au…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5735584310?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Professor (m/f/d) for People Analytics and Strategic HR Innovation</p>
+            <p class="company">GUS Germany GmbH</p>
+            <p class="loc mono">Bornim, Potsdam</p>
+          </div>
+        </div>
+        <p class="desc">Your Responsibilities The opportunity: The purpose of this position is to contribute to the academic excellence and strategic development of Gisma University of Applied Sciences through high-quality teaching, impactful …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5769225473?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Professor (m/f/d) for People Analytics and Strategic HR Innovation</p>
+            <p class="company">Gisma</p>
+            <p class="loc mono">Deutschland</p>
+          </div>
+        </div>
+        <p class="desc">Your Responsibilities The opportunity: The purpose of this position is to contribute to the academic excellence and strategic development of Gisma University of Applied Sciences through high-quality teaching, impactful …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5769861475?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Professor (m/f/d) for People Analytics and Strategic HR Innovation</p>
+            <p class="company">Global University Systems</p>
+            <p class="loc mono">Kreuzberg, Berlin</p>
+          </div>
+        </div>
+        <p class="desc">Your Responsibilities The opportunity: The purpose of this position is to contribute to the academic excellence and strategic development of Gisma University of Applied Sciences through high-quality teaching, impactful …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5771077413?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Head of People Data &amp; Analytics (m/w/d)</p>
+            <p class="company">SCHUFA Holding AG</p>
+            <p class="loc mono">Sonnenberg, Wiesbaden</p>
+          </div>
+        </div>
+        <p class="desc">Head of People Data &amp; Analytics (m/w/d) Wiesbaden, in Vollzeit Die SCHUFA war schon Fintech, bevor es Fintechs überhaupt gab. Seit fast 100 Jahren ermöglichen wir, dass finanzielle Wünsche wahr werden. Wir reduzieren fü…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5774186232?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Werkstudent HR Digitalisierung (m/w/d/kA)</p>
+            <p class="company">KOSTAL Automobil Elektrik GmbH &amp; Co. KG</p>
+            <p class="loc mono">Lüdenscheid, Märkischer Kreis</p>
+          </div>
+        </div>
+        <p class="desc">Stellenbeschreibung Unterstützung und Mitwirkung bei folgenden Projekten: Unterstützung bei der Vorbereitung auf die Implementierung eines HCM Systems People Analytics – Datenaufbereitung und Analyse Organizational Mana…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5811135787?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Werkstudent (w/m/d) HR Analytics, Reporting &amp; Power BI</p>
+            <p class="company">Siemens Energy</p>
+            <p class="loc mono">München, München (Kreis)</p>
+          </div>
+        </div>
+        <p class="desc">Werkstudent (w/m/d) HR Analytics, Reporting &amp; Power BI Momentaufnahme von deinem Tag Als Werkstudent im Bereich HR Analytics, Reporting &amp; Power BI bist Du Teil des Teams &#x27;Digital Solution Design“ innerhalb von HR System…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5815352025?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">(Adv.) SPECIALIST HR DATA ANALYTICS &amp; AI (M/F/D)</p>
+            <p class="company">Hyundai Motor Europe Technical Center</p>
+            <p class="loc mono">Rüsselsheim, Groß-Gerau (Kreis)</p>
+          </div>
+        </div>
+        <p class="desc">To start shortly, we are currently seeking a (Adv.) SPECIALIST HR DATA ANALYTICS &amp; AI (M/F/D) Develop and maintain HR dashboards, reports, and KPIs (e.g. headcount, turnover rate, recruiting figures), analyze workforce …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5812217311?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Werkstudent HR Analytics &amp; Systems (w/m/d)</p>
+            <p class="company">FRITZ EGGER GmbH &amp; Co. OG</p>
+            <p class="loc mono">Brilon, Hochsauerlandkreis</p>
+          </div>
+        </div>
+        <p class="desc">Du möchtest deine analytischen Fähigkeiten einbringen und zugleich Einblicke in moderne HR-Systeme gewinnen? In dieser Rolle unterstützt du aktiv die Weiterentwicklung unserer HR-Systemlandschaft und arbeitest an der Sc…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5801060983?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=BED918415DC7961748A0931A3E30054882550CB5" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Masterand HR Analytics (w/m/d)</p>
+            <p class="company">Schwarz Produktion Stiftung &amp; Co. KG</p>
+            <p class="loc mono">Deutschland</p>
+          </div>
+        </div>
+        <p class="desc">Damit unsere produzierenden Lebensmittelunternehmen effizient arbeiten können, unterstützen wir mit Organisation und Verwaltung. Wir sind unter anderem Experten für Einkauf, Finanzen, Controlling, Personal, IT, Marketin…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5818379196?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=2A947A76F1FF7257F5DB81D9AD482AD9D3B5B452" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Praktikum HR Analytics / HR Controlling (w/m/d)</p>
+            <p class="company">KPMG AG Wirtschaftsprüfungsgesellschaft</p>
+            <p class="loc mono">Berlin, Deutschland</p>
+          </div>
+        </div>
+        <p class="desc">Begleite KPMG bei den zukünftigen Herausforderungen unserer Kunden und Kundinnen. Begeistere auch Du Dich für die Vielfalt unserer Fragestellungen - und mach gemeinsam mit uns den Unterschied. Unterstütze gemeinsam mit …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5800141922?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=09758CB5483418C69A1E2873276334A91B1C95EE" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Werkstudent (m/w/d) HR Analytics</p>
+            <p class="company">GOLDBECK GmbH</p>
+            <p class="loc mono">Bielefeld, Nordrhein-Westfalen</p>
+          </div>
+        </div>
+        <p class="desc">GOLDBECK realisiert zukunftsweisende Immobilien in Europa. Wir verstehen Gebäude als Produkte und bieten alle Leistungen aus einer Hand: vom Design über den Bau bis zu Services im Betrieb. Aktuell beschäftigt unser Fami…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5800150022?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=1A11814F140967D8C5D737B9AA23D845E1C8E80A" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics Expert (m/w/d)</p>
+            <p class="company">B&amp;O Service SE</p>
+            <p class="loc mono">München, München (Kreis)</p>
+          </div>
+        </div>
+        <p class="desc">Bei uns steht der Mensch im Mittelpunkt. Unser Team Human Resources bildet die Grundlage für eine erfolgreiche und wertschätzende Zusammenarbeit im Unternehmen. Wir begleiten unsere Mitarbeitenden in allen personalrelev…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5800146149?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=1A0B48EA70E61E611685899967DEA1CCDEA0A7D6" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Head of HR Analytics &amp; Compensation Management (m/w/d)</p>
+            <p class="company">BWI GmbH</p>
+            <p class="loc mono">Auerberg, Bonn</p>
+          </div>
+        </div>
+        <p class="desc">Als primärer Digitalisierungspartner der Bundeswehr erbringen wir stabile, sichere und effiziente IT-Services im In- und Ausland, vom Grundbetrieb bis in den einsatznahen Bereich und tragen so zur kontinuierlichen Erhöh…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/details/5808164432?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Reporting &amp; Analytics Expert (w/m/d)</p>
+            <p class="company">Noerr Partnerschaftsgesellschaft mbB</p>
+            <p class="loc mono">München, München (Kreis)</p>
+          </div>
+        </div>
+        <p class="desc">Schön, dass Du auf uns aufmerksam geworden bist. Um bei uns erfolgreich einen Beitrag zu leisten, musst Du nicht Jura studiert haben. Wenn Du Verantwortung übernehmen möchtest, bist Du bei Noerr genau richtig. An vielen…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.de/land/ad/5817548909?se=jgNELEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=A46EFF89FF8A1472EBBBA763B0472145F0342D04" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global People Analytics Specialist</p>
+            <p class="company">JACOBS DOUWE EGBERTS</p>
+            <p class="loc mono">Amsterdam, Noord-Holland</p>
+          </div>
+        </div>
+        <p class="desc">Job Description The Global People Analytics Specialist partners with senior leaders and HR teams to turn workforce data into actionable business insights. As part of the Global Employee Listening &amp; Analytics team, you w…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5809629200?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics &amp; Total Rewards Intern</p>
+            <p class="company">Coty</p>
+            <p class="loc mono">Amsterdam, Noord-Holland</p>
+          </div>
+        </div>
+        <p class="desc">People Analytics &amp; Total Rewards Intern People Analytics &amp; Total Rewards Intern Amsterdam COTY HQ ABOUT COTY We&#x27;re Coty, one of the world&#x27;s largest beauty companies with an iconic portfolio of brands across fragrance, c…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5802339334?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data Analist (People Analytics Specialist)</p>
+            <p class="company">Randstad Professional</p>
+            <p class="loc mono">Den Haag, Zuid-Holland</p>
+          </div>
+        </div>
+        <p class="desc">Bedrijfsomschrijving Parnassia biedt ondersteuning bij alle hulpvragen rondom mentale gezondheid, van lichte tot (zeer) zware problematiek. Voor kinderen, jongeren, volwassenen, gezinnen, ouderen en mensen met een migra…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5813899878?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Hoofd Personeel</p>
+            <p class="company">NLwerkt</p>
+            <p class="loc mono">Amersfoort, Provincie Utrecht</p>
+          </div>
+        </div>
+        <p class="desc">Over de functie Als interim HR business partner draag je bij aan het vormgeven en uitvoeren van zowel strategisch als operationeel HR-beleid binnen een mensgerichte en prestatiegedreven organisatie. Je combineert jouw e…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/land/ad/5817326213?se=_KPVLEOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=32EE6F01109EF9D99188A62F0A9FA3186DF700B1" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Lead Analytics Engineer (Customer-Facing)</p>
+            <p class="company">Crunchr</p>
+            <p class="loc mono">Amsterdam, Noord-Holland</p>
+          </div>
+        </div>
+        <p class="desc">About us Crunchr is the People Analytics platform for forward-thinking HR teams. Our team has been built with the same attention and care as our product, and we value motivated and impact-driven team players. For more i…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5775568584?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Staff planning specialist, IKEA Delft, 33 of 36 uur/week</p>
+            <p class="company">Inter IKEA Group</p>
+            <p class="loc mono">Ypenburg, Den Haag</p>
+          </div>
+        </div>
+        <p class="desc">Job Description Heb je een passie voor mensen en hun welzijn? En begrijp je de impact van een goed rooster voor zowel medewerkers als de business? Dan is IKEA Delft op zoek naar jou! Bij IKEA Delft zijn we op zoek naar …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5791623679?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data Analytics Intern</p>
+            <p class="company">Webfleet Solutions</p>
+            <p class="loc mono">Nederland</p>
+          </div>
+        </div>
+        <p class="desc">At Webfleet, we&#x27;re looking for an enthusiastic, analytical, and results-oriented HR Data Analytics Intern to join our HR team in Amsterdam. This internship is ideal for someone who enjoys turning data into insights, imp…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5805619448?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data &amp; Analytics Business Partner</p>
+            <p class="company">IVC Evidensia Nederland</p>
+            <p class="loc mono">Vleuten, Utrecht</p>
+          </div>
+        </div>
+        <p class="desc">Vleuten / Hybride | Fulltime | IVC Evidensia Nederland Ben jij een data gedreven HR Controller die verder kijkt dan cijfers en dashboards? Wil jij met jouw inzichten bijdragen aan de ontwikkeling van meer dan 300 dieren…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.nl/details/5800276712?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Nos super offres || Head of HR Controlling / People Analytics</p>
+            <p class="company">W Group</p>
+            <p class="loc mono">Nanterre, Hauts-de-Seine</p>
+          </div>
+        </div>
+        <p class="desc">W Executive est un groupe européen qui propose des services d’Executive Search, de conseil en Ressources Humaines et de conseil en recrutement spécialisé de cadres et d’experts. Nos fondateurs ont tous une longue expéri…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5806553170?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Data &amp; Analytics Officer</p>
+            <p class="company">Qonto</p>
+            <p class="loc mono">Paris, Ile-de-France</p>
+          </div>
+        </div>
+        <p class="desc">Our mission and customers: We are creating the freedom for SMEs to succeed by delivering Europe&#x27;s leading finance workspace with banking at its core, augmented by financial tools. We are proud to be rated 4.8 on Trustpi…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5785930216?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Specialist HR Analyst Compensation &amp; Benefits H/F</p>
+            <p class="company">CACEIS France</p>
+            <p class="loc mono">Montrouge, Antony</p>
+          </div>
+        </div>
+        <p class="desc">Vous souhaitez enrichir votre expérience dans un environnement dynamique et international ? CACEIS vous propose un CDI en tant que Senior Compensation &amp; Benefits Specialist pour piloter la politique de rémunération et l…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5804803629?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Alternance : Alternance - Contrôleur de Gestion Sociale et Rémunération (H/F)</p>
+            <p class="company">LIDL</p>
+            <p class="loc mono">France</p>
+          </div>
+        </div>
+        <p class="desc">Introduction Travailler chez Lidl, ça vaut le coup ! En rejoignant l&#x27;équipe Total Rewards &amp; People Analytics, tu participeras concrètement à la stratégie de rétention et de performance de l&#x27;entreprise Ton rôle ? Transfo…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5805836208?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Alternance - Contrôleur de Gestion Sociale et Rémunération H/F</p>
+            <p class="company">Lidl</p>
+            <p class="loc mono">Châtenay-Malabry, Antony</p>
+          </div>
+        </div>
+        <p class="desc">Introduction Travailler chez Lidl, ça vaut le coup ! En rejoignant l&#x27;équipe Total Rewards &amp; People Analytics, tu participeras concrètement à la stratégie de rétention et de performance de l&#x27;entreprise Ton rôle ? Transfo…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5805981491?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Group Human Resources Controlling Senior Manager M - F H/F</p>
+            <p class="company">CMA CGM</p>
+            <p class="loc mono">La Défense, Courbevoie</p>
+          </div>
+        </div>
+        <p class="desc">Job based in Marseille or Paris. THE ROLE : The Group HR Controlling and People Analytics Manager is responsible for steering HR data governance, leading consolidated workforce analytics, and ensuring accurate HR cost c…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5660003621?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data &amp; Analytics Manager</p>
+            <p class="company">Pernod Ricard</p>
+            <p class="loc mono">France</p>
+          </div>
+        </div>
+        <p class="desc">HR Data &amp; Analytics Manager Job Purpose The HR Data &amp; Analytics Manager is the Group business owner for HR reporting, analytics, and insights, with the mission of transforming People data into a strategic asset for HR l…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5752444368?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Compensation, Benefits &amp; data analytics Officer</p>
+            <p class="company">Tikehau Capital</p>
+            <p class="loc mono">8ème Arrondissement, Paris</p>
+          </div>
+        </div>
+        <p class="desc">MISSIONS: Nous recherchons un(e) Chargé(e) de la Rémunération, des Avantages Sociaux &amp; HR data, doté(e) d’un fort esprit analytique et d’un grand sens du détail, pour rejoindre notre équipe Ressources Humaines. Ce poste…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5795418624?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior HR Data Analyst - Freelance</p>
+            <p class="company">Collective.work</p>
+            <p class="loc mono">8ème Arrondissement, Paris</p>
+          </div>
+        </div>
+        <p class="desc">Description du poste Le poste Vous êtes le référent de la donnée RH et accompagnez les équipes People dans la structuration, la fiabilisation et la valorisation des données. Votre rôle est de transformer les données RH …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/5813203961?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global HRIS Analyst (all genders)</p>
+            <p class="company">Evotec</p>
+            <p class="loc mono">Toulouse, Haute-Garonne</p>
+          </div>
+        </div>
+        <p class="desc">The Global HR department at our Headquarters in Hamburg, Germany, is looking for a highly motivated and dedicated candidate to assume the position as Corporate HRIS Analyst. Job Title: Corporate HRIS Analyst (all gender…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.fr/details/4619984393?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics Specialist</p>
+            <p class="company">Manychat</p>
+            <p class="loc mono">Barcelona</p>
+          </div>
+        </div>
+        <p class="desc">WHO WE ARE Manychat is a leading Chat Marketing platform. We help businesses engage with their customers on Instagram, Facebook Messenger, WhatsApp, and Telegram. Trusted by over 1 million brands in 170 countries, we&#x27;re…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804096736?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Director, People Analytics</p>
+            <p class="company">Scopely</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Scopely is looking for a Director of People Analytics to join our People Analytics team in Barcelona on a hybrid basis, working 2 days a week from the hub. At Scopely, we care deeply about what we do and want to inspire…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804101644?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics Intern</p>
+            <p class="company">Simon-Kucher</p>
+            <p class="loc mono">Barcelona</p>
+          </div>
+        </div>
+        <p class="desc">People Analytics Intern In Spain - Barcelona | Madrid What makes us special: Become part of a unique entrepreneurial team. Think independently, use your initiative, and take some risks. Entrepreneurship is a powerful fo…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5814612540?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior People Analytics Partner</p>
+            <p class="company">Lodgify</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">⭐ Who we are Lodgify is a fast-growing scale-up company leading the vacation rental industry. Backed by $30M in funding, our platform empowers property owners and managers worldwide to efficiently manage and grow their …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5616184203?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics (Compensation &amp; Benefits)</p>
+            <p class="company">Permira</p>
+            <p class="loc mono">Madrid</p>
+          </div>
+        </div>
+        <p class="desc">About Permira Permira is a global investment firm that backs successful businesses with growth ambitions. Founded in 1985, the firm advises funds across two core asset classes, private equity and credit, with total comm…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5725427861?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Digital Product Owner People Analytics</p>
+            <p class="company">Sanofi</p>
+            <p class="loc mono">Barcelona</p>
+          </div>
+        </div>
+        <p class="desc">Digital Product Owner – People Analytics Location: Barcelona About Sanofi We’re an R&amp;D-driven, AI-powered biopharma company committed to improving people’s lives and delivering compelling growth. Our deep understanding …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804111623?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics Associate Human Capital</p>
+            <p class="company">PricewaterhouseCoopers</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Job Description &amp; Summary PwC es reconocida como una de las firmas de consultoría de las Big Four. Es la firma de servicios profesionales más grande del mundo, prestando servicios de auditoría, consultoría y asesoramien…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804099105?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Beca People Analytics – Human Capital</p>
+            <p class="company">PricewaterhouseCoopers</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Job Description &amp; Summary PwC es reconocida como una de las firmas de consultoría de las Big Four. Es la firma de servicios profesionales más grande del mundo, prestando servicios de auditoría, consultoría y asesoramien…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5746775927?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Beca Recursos Humanos (People Analytics)</p>
+            <p class="company">ACCIONA Construcción</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Somos una compañía global, líder en el desarrollo de infraestructuras regenerativas que generan un impacto positivo en la sociedad. Nuestra plantilla, formada por más de 65.000 profesionales y presente en más de 40 país…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5780606039?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Técnico/a Especialista en People Analytics</p>
+            <p class="company">Grupo Eulen</p>
+            <p class="loc mono">Madrid</p>
+          </div>
+        </div>
+        <p class="desc">¿Buscas un reto profesional donde tu talento para el análisis de datos se convierta en estrategia global de negocio? ¿Te apasiona transformar datos complejos de Recursos Humanos en insights accionables que impacten en m…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5784952997?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global Total Rewards &amp; People Analytics Manager</p>
+            <p class="company">Ferrer</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Grupo Ferrer Internacional At Ferrer we use business to fight for social justice. We have long been a company that looks to do things differently; instead of maximizing shareholder returns, we reinvest much of our profi…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5723540141?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Data &amp; People Analytics Graduated Internship (12 months)</p>
+            <p class="company">Celonis</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Celonis is the global leader in Process Intelligence and the pioneer of Process Mining technology. As one of the world’s fastest-growing enterprise SaaS companies, we are changemakers pushing the boundaries of what’s po…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5786092959?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Técnico/a Junior de People Analytics y Gestión Administrativa</p>
+            <p class="company">Oca Global</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">¿Eres una persona con visión analítica y pasión por los RRHH? En OCA Global buscamos un/a Técnico/a Junior de People Analytics y Gestión Administrativa para unirte a nuestro equipo de People &amp; Talent. Si tienes interés …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804098719?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Practicas en People Solutions &amp; Analytics</p>
+            <p class="company">Accumin</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Tus tareas En Accumin estamos buscando una persona que desee realizar prácticas en el área de Recursos Humanos y sea apasionada por la analítica de datos y el people analytics para unirse a nuestro equipo. Esta es una o…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804101329?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics (People Data Anaytics - Business Intelligence)</p>
+            <p class="company">La Casa de las Carcasas</p>
+            <p class="loc mono">Majadas, Cáceres</p>
+          </div>
+        </div>
+        <p class="desc">Desde La Casa De Las Carcasas estamos buscamos para nuestro equipo de People analytics un/a analista de datos para trabajar en nuestra sede central ubicada en Jaraíz de la Vera, Cáceres. Funciones principales Procesos E…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5787100597?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Reporting Specialist</p>
+            <p class="company">Nutreco</p>
+            <p class="loc mono">Tres Cantos, Madrid</p>
+          </div>
+        </div>
+        <p class="desc">Job Description: Business Area: Global HR Technology / HR Data &amp; Analytics Location: Tres Cantos (Madrid), Spain or Amersfoort, Netherlands Why join us Get ready to Own your growth as an HR Reporting Specialist at Nutre…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5763016182?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Data Reporting and Visualisation Lead</p>
+            <p class="company">Sanofi</p>
+            <p class="loc mono">Barcelona</p>
+          </div>
+        </div>
+        <p class="desc">People Data Reporting and Visualisation Lead Location: Barcelona, Spain Transform how our organization leverages people data and experience insights through innovative analytics solutions. As the Lead for People Analyti…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5812973408?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior Strategy &amp; Planning Analyst</p>
+            <p class="company">Jobgether</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">This position is posted by Jobgether on behalf of a partner company. We are currently looking for a Senior Strategy &amp; Planning Analyst in Spain. The Senior Strategy &amp; Planning Analyst plays a critical role in driving da…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804103255?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">PAYROLL SPECIALIST / HR ANALYTICS</p>
+            <p class="company">Not listed</p>
+            <p class="loc mono">Bilbao, Vizcaya</p>
+          </div>
+        </div>
+        <p class="desc">Reportando al Responsable de HR Controlling, participará en la gestión y análisis integral del proceso íntegro de nómina y datos de RRHH (integración, estandarización, calidad y reporting) para generar insights fiables …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5798405420?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Data Analyst</p>
+            <p class="company">Sprinter</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">Como People Data Analyst, serás la persona responsable del análisis de datos y la generación de reportes a diferentes niveles, de los datos de los empleados/as del grupo para así poder predecir y optimizar los procesos …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804104587?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Data Analyst Trainee</p>
+            <p class="company">Sprinter</p>
+            <p class="loc mono">España</p>
+          </div>
+        </div>
+        <p class="desc">En Sprinter te ofrecemos una puerta de entrada a tu futuro profesional. Nuestro ¨Internship Program¨ tiene como objetivo formar y desarrollar talento emergente en diferentes áreas de negocio. Para ello, hemos diseñado u…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.es/details/5804106895?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Digital &amp; People Analytics Expert</p>
+            <p class="company">AUTOGUIDOVIE SPA</p>
+            <p class="loc mono">Milano, Provincia di Milano</p>
+          </div>
+        </div>
+        <p class="desc">Autoguidovie è la prima azienda privata di trasporto pubblico locale in Italia, con radici che risalgono al 1908 grazie alla visione innovativa del fondatore Alberto Laviosa. Oltre un secolo di attività è stato guidato …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5818462877?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Specialista SAP SuccessFactors</p>
+            <p class="company">DILS srl</p>
+            <p class="loc mono">Italia</p>
+          </div>
+        </div>
+        <p class="desc">Per un importante cliente in ambito Automotive, siamo alla ricerca di un/a Specialista SAP SuccessFactors. Attività previste: Amministrazione della piattaforma SAP SuccessFactors (gestione utenti, ruoli, permessi) Confi…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5138844256?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Total Reward Specialist</p>
+            <p class="company">METRO Italia</p>
+            <p class="loc mono">San Donato Milanese, Provincia di Milano</p>
+          </div>
+        </div>
+        <p class="desc">Descrizione del lavoro Per la Direzione People &amp; Culture siamo alla ricerca di una figura di Total Reward Specialist da inserire nel team People Analytics &amp; Payroll. La risorsa sarà responsabile della gestione dei proce…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5811135405?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Junior HR Data Analytics - Milano [IFS]</p>
+            <p class="company">PricewaterhouseCoopers</p>
+            <p class="loc mono">Italia</p>
+          </div>
+        </div>
+        <p class="desc">Line of Service Internal Firm Services Industry/Sector Not Applicable Specialism IFS - Human Capital (HC) Management Level Intern/Trainee Job Description &amp; Summary Trasforma le tue aspirazioni professionali in una stori…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5780497817?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Workorce Planning &amp; Reporting Specialist</p>
+            <p class="company">Prysmian Group</p>
+            <p class="loc mono">Italia</p>
+          </div>
+        </div>
+        <p class="desc">Team Overview and Job Responsibilities We are looking for a passionate new team member to join the Organization Development &amp; Workforce Planning Team. This role will focus on planning and controlling activities related …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5784235796?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global HR Budgeting &amp; Workforce Analyst</p>
+            <p class="company">RINA</p>
+            <p class="loc mono">Genova, Provincia di Genova</p>
+          </div>
+        </div>
+        <p class="desc">Posting Date:6 Feb 2025 City:Genova Location:Genova, IT, 16128 Contract Type:Permanent Division:Global People Rewards &amp; HR Analytics Level of experience:Junior - RINA is currently recruiting for a Global HR Budgeting &amp; …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5813966817?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Stage HR Analytics - Workforce Planning</p>
+            <p class="company">IKEA</p>
+            <p class="loc mono">Afragola, Provincia di Napoli</p>
+          </div>
+        </div>
+        <p class="desc">Job ID: 277080 Date posted: 06/02/2025 Chi sei Hai una forte passione per le Risorse Umane e hai voglia di iniziare un percorso all’interno di questa funzione. - Sei laureat* in ambito economico o gestionale, un approfo…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5813966830?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics</p>
+            <p class="company">CISALFA SPORT</p>
+            <p class="loc mono">Curno, Provincia di Bergamo</p>
+          </div>
+        </div>
+        <p class="desc">CISALFA SPORT Cisalfa Group, presente in Italia e in Germania con 7 società e le insegne Cisalfa Sport, INTERSPORT Voswinkel e SportScheck, con più di 240 negozi e 5.500 persone, è alla ricerca di una figura come HR Ana…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5793420438?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics</p>
+            <p class="company">RECRUITING GRUPPO CISALFA SPORT</p>
+            <p class="loc mono">Curno, Provincia di Bergamo</p>
+          </div>
+        </div>
+        <p class="desc">Cisalfa Group, presente in Italia e in Germania con 7 società e le insegne Cisalfa Sport, INTERSPORT Voswinkel e SportScheck, con più di 240 negozi e 5.500 persone, è alla ricerca di una figura come HR Analytcs. La riso…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5790354783?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics Internship</p>
+            <p class="company">EssilorLuxottica Group</p>
+            <p class="loc mono">Milano, Provincia di Milano</p>
+          </div>
+        </div>
+        <p class="desc">If you’ve worn a pair of glasses, we’ve already met. We are a global leader in the design, manufacture, and distribution of ophthalmic lenses, frames, and sunglasses. We offer our industry stakeholders in over 150 count…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5799516220?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data Analytics</p>
+            <p class="company">UNIPOL</p>
+            <p class="loc mono">Bologna, Provincia di Bologna</p>
+          </div>
+        </div>
+        <p class="desc">Description Unipol Assicurazioni, compagnia assicurativa multi-ramo e leader in Italia nei rami Danni, per incrementare le proprie capacità di analisi dati HR trasformandole in informazioni strategiche a supporto della …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5811275684?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data Analyst</p>
+            <p class="company">LHH</p>
+            <p class="loc mono">Provincia di Treviso, Veneto</p>
+          </div>
+        </div>
+        <p class="desc">LHH Per conto di un importante Gruppo, attivo in ambito infrastrutturale e tecnologico, siamo alla ricerca di una figura di HR Data Analyst &amp; Reporting Specialist. La realtà si caratterizza per una struttura organizzati…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5774123662?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR &amp; Organisation Analyst &amp; Reporting - Operations Process and Data Optimization</p>
+            <p class="company">Praxi</p>
+            <p class="loc mono">Roma, Provincia di Roma</p>
+          </div>
+        </div>
+        <p class="desc">Principali Attività Il profilo, inserito nella nuova funzione di HR Analytics, avrà la responsabilità dell’analisi dei dati al fine di supportare decisioni strategiche aziendali. La risorsa dovrà analizzare ed elaborare…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5818461111?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">W&amp;o Strategy Consultant</p>
+            <p class="company">CAPGEMINI ENGINEERING</p>
+            <p class="loc mono">Milano, Provincia di Milano</p>
+          </div>
+        </div>
+        <p class="desc">In order to support the strong growth of Capgemini Invent Italy office, we are currently recruiting an Junior Hr Transformation for W&amp;O department for our_ Milan office._ About the job At Capgemini Invent, we bring to l…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.it/details/5815467791?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Workday Reporting Analyst (People Analytics)</p>
+            <p class="company">Trimble</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">Unlock the Power of Data as Our Next Workday Reporting Analyst (People Analytics)! Are you ready to transform HR data into actionable insights that shape organizational strategy? Trimble is seeking an analytical problem…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5772039728?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Data Scientist (People Analytics)</p>
+            <p class="company">Capgemini Polska</p>
+            <p class="loc mono">Opole, opolskie</p>
+          </div>
+        </div>
+        <p class="desc">HR Data Scientist (People Analytics) Miejsce pracy: Opole Technologies we use Expected Python R SQL Power BI DAX Machine Learning NLP About the project You play a key role in delivering advanced People Analytics and dat…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5779988799?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics - Workday Reporting Developer</p>
+            <p class="company">Rolls-Royce</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">Job Description Workday Reporting Developer Full Time, Hybrid Cracow, Poland. ABOUT US Rolls-Royce plc is the leading British multinational aerospace and defence company that designs, manufactures, and services complex …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5723514558?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics Specialist (Data &amp; Strategy) @ Antal</p>
+            <p class="company">Antal</p>
+            <p class="loc mono">Wrocław, dolnośląskie</p>
+          </div>
+        </div>
+        <p class="desc">Analytical Experience: 2 years of professional experience in an analytical role (e.g., Business Intelligence, Data Analysis, HR Analytics). Technical Stack: Advanced proficiency in Power BI (DAX, Power Query) and Excel …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5794930567?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior Data Engineer @ Link Group</p>
+            <p class="company">Link Group</p>
+            <p class="loc mono">Warszawa, mazowieckie</p>
+          </div>
+        </div>
+        <p class="desc">4 years of experience in data engineering Hands-on knowledge of DBT, Snowflake, Fivetran, and SQL or similar solutions Understanding of data privacy and governance Ability to work independently and collaboratively in a …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5781570127?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Specjalista ds. Analityki HR</p>
+            <p class="company">Pocketsquare sp. z o.o.</p>
+            <p class="loc mono">Warszawa, mazowieckie</p>
+          </div>
+        </div>
+        <p class="desc">Opis stanowiska Dla naszego Klienta poszukujemy People Analytics Specialist, który będzie wspierać podejmowanie decyzji biznesowych poprzez analizę danych dotyczących obszaru People. To stanowisko skierowane jest do ana…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5799993889?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Analyst HR Reporting &amp; Data Quality</p>
+            <p class="company">E687-Goodyear Polska z o.o</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">About Goodyear We’re dedicated to producing, innovating, and servicing the best tires in the world. For over 125 years, Goodyear has led the way in developing smart solutions that shape the future of mobility. Today, we…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5763885159?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Business Partner</p>
+            <p class="company">Ferro S.A.</p>
+            <p class="loc mono">Skawina, małopolskie</p>
+          </div>
+        </div>
+        <p class="desc">Key responsibilities Acting as a key HR partner for managers and teams across strategic projects and subsidiaries; Driving recruitment, talent development and succession initiatives across multiple countries; Supporting…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5731064669?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Data &amp; Analytics Lead</p>
+            <p class="company">Link Group</p>
+            <p class="loc mono">Warszawa, mazowieckie</p>
+          </div>
+        </div>
+        <p class="desc">About the Role In this role, you will take ownership of sensitive data products and workforce analytics, ensuring that data is accessible, reliable, and actionable for business stakeholders. You will help shape the long…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/land/ad/5723669830?se=WvmfMUOL8RGzQa4pljvFHQ&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=0C2AA6DC6D6E4D9927CED4BA89DE38B4D6A6DE2B" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior Manager, Workforce Planning &amp; Data Analytics (W/M)</p>
+            <p class="company">Avantor</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">The Opportunity: As Senior Manager, Workforce Planning &amp; Data Analytics, you will build and lead the enterprise workforce planning capability, ensuring Avantor&#x27;s global talent strategy is anchored in rigorous data and a…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5798339006?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Analyst HR Reporting &amp; Data Quality</p>
+            <p class="company">The Goodyear Tire &amp; Rubber Company</p>
+            <p class="loc mono">Dębica, podkarpackie</p>
+          </div>
+        </div>
+        <p class="desc">About Goodyear We&#x27;re dedicated to producing, innovating, and servicing the best tires in the world. For over 125 years, Goodyear has led the way in developing smart solutions that shape the future of mobility. Today, we…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5758121411?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior Talent Acquisition Lead</p>
+            <p class="company">PsiBufet</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">Czym będziesz się zajmować? Directly line manage, coach, and develop a cross-border team of 3 TA Partners: 1 in Poland and 2 in the UK. Centralise recruitment reporting across the Operations hiring pod, driving high per…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5803621348?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior AI Solutions Engineer</p>
+            <p class="company">7N</p>
+            <p class="loc mono">Warszawa, mazowieckie</p>
+          </div>
+        </div>
+        <p class="desc">Do zespołu HR Analytics &amp; Systems poszukujemy AI Solutions Developera, który będzie odpowiedzialny za projektowanie i wdrażanie rozwiązań opartych o AI wspierających procesy HR w globalnej organizacji inwestycyjnej. Oso…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/land/ad/5784804752?se=vhTuMUOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=8E7B17EA025D557B5931B73A426C85E960EA4FD6" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Total Rewards &amp; HC Analytics</p>
+            <p class="company">PricewaterhouseCoopers</p>
+            <p class="loc mono">Polska</p>
+          </div>
+        </div>
+        <p class="desc">Job Description &amp; Summary Reward &amp; People Analytics w PwC Polska to zespół ekspertów HR. Specjalizujemy się w, m.in.: rozwijaniu funkcjonującego w organizacji systemu wynagrodzeń i programów motywacyjnych, budowaniu i z…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.pl/details/5725419377?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global HR Reporting &amp; Analytics Specialist</p>
+            <p class="company">iSi Group</p>
+            <p class="loc mono">Floridsdorf, Wien</p>
+          </div>
+        </div>
+        <p class="desc">Global HR Reporting &amp; Analytics Specialist Bewerben Vienna Kürschnergasse 4 Vollzeit Vor mehr als 30 Tagen ausgeschrieben JR100450 Global HR Reporting &amp; Analytics Specialist (all genders) Dienstort: 1210 Wien Stundenaus…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/land/ad/5805727123?se=eGaCMkOL8RGZmYFlEP0Odw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=3E6F5911927FD62D9CB4A7C971702AC93ABD9287" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Global HR Reporting &amp; Analytics Specialist</p>
+            <p class="company">iSi Automotive</p>
+            <p class="loc mono">Österreich</p>
+          </div>
+        </div>
+        <p class="desc">Global HR Reporting &amp; Analytics Specialist (all genders) Dienstort : 1210 Wien | Stundenausmaß : 38,5 h/ Woche | Eintrittstermin : ab sofort Die iSi Group bietet als international tätiger Industriekonzern maßgeschneider…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/details/5772059704?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Manager Compensation &amp; HR Data Analytics (m/w/d)</p>
+            <p class="company">ISG Personalmanagement GmbH</p>
+            <p class="loc mono">Wien, Österreich</p>
+          </div>
+        </div>
+        <p class="desc">Manager Compensation &amp; HR Data Analytics (m/w/d) Die SPIE Austria GmbH ist in Österreich mit rund 760 Mitarbeiterinnen und Mitarbeitern in den Bereichen Infrastruktur, Energie- und Kommunikations-, Verkehrs- und Prozess…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/land/ad/5814986704?se=RqHYMkOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=F9783701E3E0BBFD7D81326ADB759716E1747B52" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics &amp; Data Expert (w/m/d)</p>
+            <p class="company">PwC Österreich</p>
+            <p class="loc mono">Wien, Österreich</p>
+          </div>
+        </div>
+        <p class="desc">HR Analytics &amp; Data Expert (w/m/d) Standort: Wien Eintrittsdatum: ab sofort Arbeitszeit: Vollzeit (40 Wochenstunden) Bist du bereit, einen Unterschied zu machen? PwC Österreich ist mit rund 1500 Mitarbeitenden an 5 Stan…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/land/ad/5785204979?se=RqHYMkOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=CD3D22552845AB5C6897A998722B1E8800490DB0" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Analytics &amp; Data Expert (w/m/d)</p>
+            <p class="company">PricewaterhouseCoopers</p>
+            <p class="loc mono">Österreich</p>
+          </div>
+        </div>
+        <p class="desc">Line of Service Internal Firm Services Industry/Sector Not Applicable Specialism IFS - Human Capital (HC) Management Level Senior Associate Job Description &amp; Summary Bist du bereit, einen Unterschied zu machen? PwC Öste…</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/details/5807567190?utm_medium=api&amp;utm_source=a8e31989" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Reporting &amp; Analytics Specialist/ Personalcontrolling (m/w/d)</p>
+            <p class="company">Fronius</p>
+            <p class="loc mono">Pettenbach, Kirchdorf an der Krems</p>
+          </div>
+        </div>
+        <p class="desc">HR Reporting &amp; Analytics Specialist/ Personalcontrolling (m/w/d) Pettenbach Vollzeit Unsere Aufgaben: * Im HR Reporting kümmern wir uns um sämtliche Bedarfe rund um Daten aus den Human Ressource Bereichen. * Wir prüfen …</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span>
+            <span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Adzuna &middot; 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.adzuna.at/land/ad/5799462198?se=RqHYMkOL8RGW1Ji16AgArw&amp;utm_medium=api&amp;utm_source=a8e31989&amp;v=0C390F71FFD61956EDB6ADCB8F65B073199968C3" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
     </div>
   </div>
-
 </main>
 
 <div class="automation-note">
-  <h3>What it takes to make this refresh daily, for real</h3>
-  <p>This page proves the format. Turning it into an actual daily feed needs three pieces running outside this chat, since I don't have a way to execute anything on a schedule once this conversation ends:</p>
-  <ul>
-    <li><strong>A data source</strong> &mdash; a job-board API or RSS feed (e.g. Adzuna, which covers UAE and most EU countries on a free tier, or a paid LinkedIn/Indeed publisher feed). Scraping sites like Indeed or Glassdoor directly tends to violate their terms of use, so an API is the sound long-term choice.</li>
-    <li><strong>A scheduler</strong> &mdash; something to run the pull once a day and regenerate this HTML: a GitHub Actions workflow, an n8n workflow, or a cron job, all of which you've used before for similar builds.</li>
-    <li><strong>A place to host the output</strong> &mdash; e.g. GitHub Pages, so the page has a stable URL you can bookmark instead of re-downloading a file each day.</li>
-  </ul>
-  <p><strong>On recruiter emails specifically:</strong> across every source checked for this sample &mdash; Indeed, Glassdoor, GulfTalent, Bayt, company careers pages &mdash; direct recruiter email addresses simply aren't published on job postings. A realistic daily feed would instead surface the <em>recruiter or hiring team name where the posting names one</em>, the agency/company, and a link to their LinkedIn search or the apply page &mdash; not an email address, which would have to be invented to appear otherwise.</p>
+  <h3>How this page is built</h3>
+  <p>A GitHub Actions workflow runs <span class="mono">fetch_jobs.py</span> once a day. It queries the Adzuna API for Germany and a set of EU countries, and the Jooble API for the UAE, keeps only listings whose title/description contain both an HR term and an analytics/data term, de-duplicates, and re-renders this page into <span class="mono">docs/index.html</span> &mdash; which GitHub Pages then serves automatically.</p>
 </div>
 
 <footer>
-  Data pulled via public job-board search on 29 Jul 2026 &middot; sources: Indeed (ae.indeed.com), Glassdoor, Delivery Hero Careers &middot; this is a one-time sample, not a live feed.
+  Generated 29 Jul 2026, 11:46 UTC &middot; sources: Adzuna API (Germany/EU), Jooble API (UAE) &middot; see README.md in this repo for setup.
 </footer>
 
 </body>
