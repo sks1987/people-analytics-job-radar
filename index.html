@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People Analytics Job Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1B26;
+    --panel:#152838;
+    --panel-line:#28405a;
+    --parchment:#F4EFE3;
+    --parchment-dim:#E7DFCB;
+    --amber:#C99A3B;
+    --amber-dim:#8a6b2a;
+    --teal:#3E8F7C;
+    --rose:#B85C4E;
+    --ink-text:#1B2430;
+    --muted:#7C8798;
+    --muted-warm:#8B8574;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--parchment);
+    font-family:'IBM Plex Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- Header ---------- */
+  header{
+    padding:56px 6vw 40px;
+    border-bottom:1px solid var(--panel-line);
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(201,154,59,0.12), transparent 55%),
+      var(--ink);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin:0 0 14px;
+  }
+  h1{
+    margin:0 0 14px;
+    font-size:clamp(32px,5vw,52px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    line-height:1.05;
+  }
+  header p.lede{
+    max-width:640px;
+    color:#C7CFDA;
+    font-size:16px;
+    line-height:1.6;
+    margin:0 0 28px;
+  }
+  .status-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+  }
+  .status-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:7px 12px;
+    border:1px solid var(--panel-line);
+    border-radius:20px;
+    color:#AEB8C6;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;}
+
+  /* ---------- Disclaimer ---------- */
+  .disclaimer{
+    margin:0 6vw;
+    margin-top:28px;
+    padding:18px 22px;
+    background:rgba(201,154,59,0.08);
+    border:1px solid rgba(201,154,59,0.35);
+    border-radius:10px;
+    font-size:14px;
+    line-height:1.6;
+    color:#E8DEC4;
+  }
+  .disclaimer strong{color:var(--amber);}
+
+  /* ---------- Region sections ---------- */
+  main{padding:52px 6vw 20px;}
+  .region{margin-bottom:56px;}
+  .region-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:22px;
+    padding-bottom:14px;
+    border-bottom:2px solid var(--panel-line);
+  }
+  .region-head.uae{border-bottom-color:var(--teal);}
+  .region-head.eu{border-bottom-color:var(--rose);}
+  .region-head h2{
+    font-size:22px;
+    margin:0;
+    font-weight:700;
+  }
+  .region-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+    gap:18px;
+  }
+
+  .card{
+    background:var(--parchment);
+    color:var(--ink-text);
+    border-radius:12px;
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    position:relative;
+    border:1px solid var(--parchment-dim);
+  }
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .role{
+    font-size:17px;
+    font-weight:700;
+    line-height:1.3;
+    margin:0 0 4px;
+  }
+  .company{
+    font-size:13px;
+    color:var(--muted-warm);
+    font-weight:500;
+  }
+  .loc{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted-warm);
+    margin-top:2px;
+  }
+
+  /* fit badge: overlapping rings = HR x Analytics intersection */
+  .fit-badge{
+    flex:none;
+    width:46px;height:30px;
+    position:relative;
+  }
+  .fit-badge span{
+    position:absolute;
+    top:2px;
+    width:26px;height:26px;
+    border-radius:50%;
+    mix-blend-mode:multiply;
+    opacity:.75;
+  }
+  .fit-badge .hr{left:0;background:var(--teal-badge,#3E8F7C);}
+  .fit-badge .an{left:16px;background:var(--amber);}
+  .region-head.eu ~ .cards .fit-badge .hr{background:var(--rose);}
+
+  .desc{
+    font-size:13.5px;
+    line-height:1.55;
+    color:#3A4250;
+    margin:0;
+  }
+
+  .meta-line{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    font-size:12px;
+    padding-top:10px;
+    border-top:1px dashed var(--parchment-dim);
+  }
+  .meta-row{display:flex;gap:8px;}
+  .meta-label{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--muted-warm);
+    min-width:88px;
+    flex:none;
+  }
+  .meta-value{color:var(--ink-text);}
+  .meta-value.unavailable{color:#9A6B4F;font-style:italic;}
+
+  .card-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:4px;
+  }
+  .source-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--muted-warm);
+  }
+  .apply-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    font-weight:600;
+    text-decoration:none;
+    background:var(--ink);
+    color:var(--parchment);
+    padding:9px 16px;
+    border-radius:7px;
+    white-space:nowrap;
+    transition:background .15s ease;
+  }
+  .apply-btn:hover{background:var(--amber-dim);}
+
+  /* ---------- Automation note ---------- */
+  .automation-note{
+    margin:20px 6vw 60px;
+    padding:28px 30px;
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:12px;
+  }
+  .automation-note h3{
+    margin:0 0 10px;
+    font-size:17px;
+    color:var(--amber);
+  }
+  .automation-note p{
+    font-size:13.5px;
+    line-height:1.65;
+    color:#C7CFDA;
+    margin:0 0 12px;
+    max-width:760px;
+  }
+  .automation-note ul{
+    margin:0;
+    padding-left:18px;
+    font-size:13.5px;
+    line-height:1.7;
+    color:#C7CFDA;
+  }
+
+  footer{
+    padding:24px 6vw 40px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    border-top:1px solid var(--panel-line);
+  }
+
+  @media (max-width:560px){
+    header{padding:40px 5vw 32px;}
+    main{padding:36px 5vw 10px;}
+    .disclaimer{margin:24px 5vw 0;}
+    .automation-note{margin:20px 5vw 48px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">HR × Analytics / Data Science &mdash; UAE &amp; Germany/EU</p>
+  <h1>People Analytics Job Radar</h1>
+  <p class="lede">A working sample of roles sitting at the intersection of HR, People/Workforce Analytics and HR Transformation &mdash; pulled from public job boards for review before this becomes an automated daily feed.</p>
+  <div class="status-row">
+    <span class="status-chip"><span class="dot"></span>Snapshot taken 29 Jul 2026</span>
+    <span class="status-chip">6 roles &middot; 2 regions</span>
+    <span class="status-chip">Manually curated, not yet live-automated</span>
+  </div>
+</header>
+
+<div class="disclaimer">
+  <strong>Status check before you rely on this:</strong> this page is a one-time, hand-pulled sample built from a live search today &mdash; it is <strong>not yet</strong> refreshing on its own. It also has an honest gap: none of the postings below publish a recruiter's direct email address (this is normal for Indeed/Glassdoor/company-careers postings). See the note at the bottom for what it takes to make this a real, self-updating daily page, and how the "recruiter contact" field would realistically work.
+</div>
+
+<main>
+
+  <div class="region">
+    <div class="region-head uae">
+      <h2>United Arab Emirates</h2>
+      <span class="region-count">4 roles</span>
+    </div>
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">HR Specialist &mdash; HR Data &amp; Analytics</p>
+            <p class="company">The Emirates Group</p>
+            <p class="loc mono">Dubai, UAE</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">Sits inside the HR Data &amp; Analytics function, helping build a self-service analytics model and working with the wider HR team on data risk and compliance.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=8bd9d26d464225e4&bb=DOOV92PD30_PREeO0eN_DaYYsEdA8yR05AeADnfhpP_Fcie5ydut5483ct0vs3DTiR1qNWHQE-Cxz8cnXAnN_ln0hQ85ZHtJOdKFDfb9O-nd5FxX_2kTy4OLZr1Oqgih&xkcb=SoBL67M3gWo8b4WTT50JbzkdCdPP&fccid=9ef97ff407fc27fd&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Graduate Analyst &mdash; Employee Benefits Analytics &amp; Risk Modelling</p>
+            <p class="company">Howden Group Holdings</p>
+            <p class="loc mono">Dubai, UAE</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">Graduate seat on the Employee Benefits team, blending people data, risk and business strategy to support how organisations design and manage insurance programmes.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=e6d3a4b7549a9e09&bb=DOOV92PD30_PREeO0eN_De6-myli9nF12PiVaTZ82xtNd28Uuzg-mgyS437cEBmhuLW3u5xXhs2EDlEl8FyfM4Sa2aDOXpv_uBHhN0Sb3I9G7nRNmjoosNYP71LzaUbN&xkcb=SoBY67M3gWo8b52TT50KbzkdCdPP&fccid=9c112f8961616152&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Management Trainee &mdash; HR Analyst</p>
+            <p class="company">Elena | HR Recruitment (agency)</p>
+            <p class="loc mono">Dubai, UAE</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">Entry-level trainee role posted by a Dubai recruitment agency &mdash; covers HR project support, dashboard/report building and a stated interest in compensation analytics.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Agency posting &mdash; no direct email published</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=7af3caf08d5e164b&bb=DOOV92PD30_PREeO0eN_DbxX-TBXXLj9Nm9xwWoguGOyew8MnqrVnUb2SSZfMqsg8OO-dKr4ZpOT6v1LhKUILr0f9klQT9BtP7PL164sTKiRGMUNHay_XS_hNXItCeox&xkcb=SoD_67M3gWo8b52TT50PbzkdCdPP&fccid=dd616958bd9ddc12&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People &amp; Culture Intern</p>
+            <p class="company">Huda Beauty</p>
+            <p class="loc mono">Dubai, UAE &middot; 6-month contract</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">HR generalist internship covering onboarding and HRIS upkeep, with direct exposure to people-analytics work such as turnover, engagement and headcount reporting.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Indeed &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://ae.indeed.com/rc/clk?jk=4d0c4220cc44c7a2&bb=DOOV92PD30_PREeO0eN_DY6ufWpUF63lFGMZdLJGA9NS3oSb0-zBfDhG4Fh68FPSIVPiYP0snd_OO1vw-lLPXvN9vIfbWUosC6fVkoyXzLnHx1CWNaMQb6MvyVz_iwmx&xkcb=SoDs67M3gWo8b52TT50LbzkdCdPP&fccid=1e8e0b35ecae0d7e&vjs=3" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="region">
+    <div class="region-head eu">
+      <h2>Germany &amp; EU</h2>
+      <span class="region-count">2 roles</span>
+    </div>
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">People Analytics Manager &mdash; M+A GAS Region</p>
+            <p class="company">TUI Group</p>
+            <p class="loc mono">Berlin, Germany &middot; Hybrid</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">Owns people-analytics and reporting standards across Germany, Austria and Switzerland; central link between local entities and the group People Analytics team, building Tableau/Python dashboards and forecasting workforce needs.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Glassdoor &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://www.glassdoor.com/job-listing/people-analytics-manager-m-a-gas-region-tui-group-JV_IC2622109_KO0,39_KE40,49.htm?jl=1009927450434" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <p class="role">Senior Analyst, People Analytics</p>
+            <p class="company">Delivery Hero</p>
+            <p class="loc mono">Berlin, Germany</p>
+          </div>
+          <div class="fit-badge"><span class="hr"></span><span class="an"></span></div>
+        </div>
+        <p class="desc">Senior seat on the central People Analytics team &mdash; maintains the HR data warehouse, standardises People KPIs across markets and applies data-science methods for CHROs and leadership.</p>
+        <div class="meta-line">
+          <div class="meta-row"><span class="meta-label">Contact</span><span class="meta-value unavailable">Not publicly listed &mdash; apply via link</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="source-tag">Delivery Hero Careers &middot; captured 29 Jul 2026</span>
+          <a class="apply-btn" href="https://careers.deliveryhero.com/job/senior-analyst-people-analytics-all-genders-in-berlin-germany-jid-1837" target="_blank" rel="noopener">Apply &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<div class="automation-note">
+  <h3>What it takes to make this refresh daily, for real</h3>
+  <p>This page proves the format. Turning it into an actual daily feed needs three pieces running outside this chat, since I don't have a way to execute anything on a schedule once this conversation ends:</p>
+  <ul>
+    <li><strong>A data source</strong> &mdash; a job-board API or RSS feed (e.g. Adzuna, which covers UAE and most EU countries on a free tier, or a paid LinkedIn/Indeed publisher feed). Scraping sites like Indeed or Glassdoor directly tends to violate their terms of use, so an API is the sound long-term choice.</li>
+    <li><strong>A scheduler</strong> &mdash; something to run the pull once a day and regenerate this HTML: a GitHub Actions workflow, an n8n workflow, or a cron job, all of which you've used before for similar builds.</li>
+    <li><strong>A place to host the output</strong> &mdash; e.g. GitHub Pages, so the page has a stable URL you can bookmark instead of re-downloading a file each day.</li>
+  </ul>
+  <p><strong>On recruiter emails specifically:</strong> across every source checked for this sample &mdash; Indeed, Glassdoor, GulfTalent, Bayt, company careers pages &mdash; direct recruiter email addresses simply aren't published on job postings. A realistic daily feed would instead surface the <em>recruiter or hiring team name where the posting names one</em>, the agency/company, and a link to their LinkedIn search or the apply page &mdash; not an email address, which would have to be invented to appear otherwise.</p>
+</div>
+
+<footer>
+  Data pulled via public job-board search on 29 Jul 2026 &middot; sources: Indeed (ae.indeed.com), Glassdoor, Delivery Hero Careers &middot; this is a one-time sample, not a live feed.
+</footer>
+
+</body>
+</html>
