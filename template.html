@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People Analytics Job Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1B26; --panel:#152838; --panel-line:#28405a;
+    --parchment:#F4EFE3; --parchment-dim:#E7DFCB;
+    --amber:#C99A3B; --amber-dim:#8a6b2a;
+    --teal:#3E8F7C; --rose:#B85C4E;
+    --ink-text:#1B2430; --muted:#7C8798; --muted-warm:#8B8574;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ink);color:var(--parchment);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  header{padding:56px 6vw 40px;border-bottom:1px solid var(--panel-line);
+    background:radial-gradient(ellipse at 15% 0%, rgba(201,154,59,0.12), transparent 55%), var(--ink);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 14px;}
+  h1{margin:0 0 14px;font-size:clamp(32px,5vw,52px);font-weight:700;letter-spacing:-0.01em;line-height:1.05;}
+  header p.lede{max-width:640px;color:#C7CFDA;font-size:16px;line-height:1.6;margin:0 0 28px;}
+  .status-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .status-chip{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 12px;border:1px solid var(--panel-line);border-radius:20px;color:#AEB8C6;display:inline-flex;align-items:center;gap:7px;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;}
+  .disclaimer{margin:28px 6vw 0;padding:18px 22px;background:rgba(201,154,59,0.08);border:1px solid rgba(201,154,59,0.35);border-radius:10px;font-size:14px;line-height:1.6;color:#E8DEC4;}
+  .disclaimer strong{color:var(--amber);}
+  main{padding:52px 6vw 20px;}
+  .region{margin-bottom:56px;}
+  .region-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-bottom:14px;border-bottom:2px solid var(--panel-line);}
+  .region-head.uae{border-bottom-color:var(--teal);}
+  .region-head.eu{border-bottom-color:var(--rose);}
+  .region-head h2{font-size:22px;margin:0;font-weight:700;}
+  .region-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;}
+  .card{background:var(--parchment);color:var(--ink-text);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--parchment-dim);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .role{font-size:17px;font-weight:700;line-height:1.3;margin:0 0 4px;}
+  .company{font-size:13px;color:var(--muted-warm);font-weight:500;}
+  .loc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-warm);margin-top:2px;}
+  .desc{font-size:13.5px;line-height:1.55;color:#3A4250;margin:0;}
+  .meta-line{display:flex;flex-direction:column;gap:6px;font-size:12px;padding-top:10px;border-top:1px dashed var(--parchment-dim);}
+  .meta-row{display:flex;gap:8px;}
+  .meta-label{font-family:'IBM Plex Mono',monospace;color:var(--muted-warm);min-width:88px;flex:none;}
+  .meta-value{color:var(--ink-text);}
+  .meta-value.unavailable{color:#9A6B4F;font-style:italic;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px;}
+  .source-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted-warm);}
+  .apply-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--parchment);padding:9px 16px;border-radius:7px;white-space:nowrap;}
+  .empty{font-size:13.5px;color:var(--muted);font-style:italic;}
+  .automation-note{margin:20px 6vw 60px;padding:28px 30px;background:var(--panel);border:1px solid var(--panel-line);border-radius:12px;}
+  .automation-note h3{margin:0 0 10px;font-size:17px;color:var(--amber);}
+  .automation-note p{font-size:13.5px;line-height:1.65;color:#C7CFDA;margin:0 0 12px;max-width:760px;}
+  footer{padding:24px 6vw 40px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);border-top:1px solid var(--panel-line);}
+  @media (max-width:560px){header{padding:40px 5vw 32px;}main{padding:36px 5vw 10px;}.disclaimer{margin:24px 5vw 0;}.automation-note{margin:20px 5vw 48px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">HR &times; Analytics / Data Science &mdash; UAE &amp; Germany/EU</p>
+  <h1>People Analytics Job Radar</h1>
+  <p class="lede">Auto-refreshed daily via GitHub Actions. Pulls roles at the intersection of HR, People/Workforce Analytics and HR Transformation from Adzuna (Germany/EU) and Jooble (UAE).</p>
+  <div class="status-row">
+    <span class="status-chip"><span class="dot"></span>Last refreshed {{SNAPSHOT_DATE}}</span>
+    <span class="status-chip">{{TOTAL_COUNT}} roles &middot; 2 regions</span>
+  </div>
+</header>
+
+<div class="disclaimer">
+  <strong>Read this before relying on the contact field:</strong> neither data source used here publishes a recruiter's direct email address on job postings &mdash; that's normal, not a bug in this feed. Where a source names a recruiter, agency, or hiring team, that name is shown; otherwise the field honestly says so. Nothing here is invented.
+</div>
+
+<main>
+  <div class="region">
+    <div class="region-head uae">
+      <h2>United Arab Emirates</h2>
+      <span class="region-count">{{UAE_COUNT}} roles</span>
+    </div>
+    <div class="cards">
+      {{UAE_CARDS}}
+    </div>
+  </div>
+
+  <div class="region">
+    <div class="region-head eu">
+      <h2>Germany &amp; EU</h2>
+      <span class="region-count">{{EU_COUNT}} roles</span>
+    </div>
+    <div class="cards">
+      {{EU_CARDS}}
+    </div>
+  </div>
+</main>
+
+<div class="automation-note">
+  <h3>How this page is built</h3>
+  <p>A GitHub Actions workflow runs <span class="mono">fetch_jobs.py</span> once a day. It queries the Adzuna API for Germany and a set of EU countries, and the Jooble API for the UAE, keeps only listings whose title/description contain both an HR term and an analytics/data term, de-duplicates, and re-renders this page into <span class="mono">docs/index.html</span> &mdash; which GitHub Pages then serves automatically.</p>
+</div>
+
+<footer>
+  Generated {{SNAPSHOT_DATE}} &middot; sources: Adzuna API (Germany/EU), Jooble API (UAE) &middot; see README.md in this repo for setup.
+</footer>
+
+</body>
+</html>
