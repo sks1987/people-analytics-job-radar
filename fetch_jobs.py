@@ -286,7 +286,6 @@ def build_page(uae_jobs: list, eu_jobs: list) -> str:
     )
     return page
 
-
 def main() -> None:
     captured = datetime.now(timezone.utc).strftime("%d %b %Y")
 
@@ -295,9 +294,9 @@ def main() -> None:
     for kw in SEARCH_KEYWORDS:
         uae_jobs.extend(fetch_jooble(kw))
 
-  for kw in SEARCH_KEYWORDS:
+    for kw in SEARCH_KEYWORDS:
         eu_jobs.extend(fetch_arbeitsagentur(kw))
-        
+
     for country in ADZUNA_COUNTRIES:
         for kw in SEARCH_KEYWORDS:
             eu_jobs.extend(fetch_adzuna(country, kw))
