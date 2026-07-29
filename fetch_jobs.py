@@ -194,9 +194,6 @@ def fetch_arbeitsagentur(keyword: str, results_size: int = 50) -> list:
         })
     return jobs
 
-
-</parameter>
-
 def fetch_jooble(keyword: str, location: str = JOOBLE_LOCATION) -> list:
     if not JOOBLE_API_KEY:
         print("[jooble] missing JOOBLE_API_KEY — skipping", file=sys.stderr)
