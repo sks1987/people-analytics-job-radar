@@ -3,32 +3,25 @@ fetch_jobs.py
 =============
 Pulls roles at the intersection of HR and Analytics/Data Science in the UAE
 and Germany/EU, and renders them into docs/index.html using template.html.
+Tracks which roles were seen in prior runs (seen_jobs.json) so today's
+newly-appeared roles can be highlighted on the page.
 
 Data sources:
   - Adzuna API (Germany + other EU countries)  https://developer.adzuna.com/
   - Jooble API (UAE)                            https://jooble.org/api/about
+  - Bundesagentur fuer Arbeit (Germany, unofficial) https://github.com/bundesAPI/jobsuche-api
 
-IMPORTANT — verify before relying on this in production:
-  - Adzuna's supported country code list and exact query parameters:
-    https://developer.adzuna.com/docs/search
-  - Jooble's request/response schema, and whether one API key works across
-    all of Jooble's country sites or whether the UAE-specific key issued via
-    ae.jooble.org is required: https://jooble.org/api/about
-  Both of the above were accurate against each provider's published docs at
-  the time this script was written, but API surfaces do change — confirm
-  against the live docs the first time you run this for real, not just by
-  reading this comment.
-
-Neither source publishes a recruiter's direct email address on job
-postings. This script does NOT invent one — the "contact" field is always
-either the named company/agency or an explicit "not publicly listed".
+Neither Adzuna nor Jooble publishes a recruiter's direct email address on
+job postings. This script does NOT invent one - the "contact" field is
+always either the named company/agency or an explicit "not publicly listed".
 """
 
 import html
+import json
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -42,9 +35,9 @@ JOOBLE_API_KEY = os.environ.get("JOOBLE_API_KEY", "")
 
 TEMPLATE_PATH = "template.html"
 OUTPUT_PATH = "docs/index.html"
+SEEN_JOBS_PATH = "seen_jobs.json"
+SEEN_RETENTION_DAYS = 30
 
-# A job must match at least one HR term AND at least one analytics/data term
-# to count as "at the intersection". Edit these lists to tune the feed.
 HR_TERMS = [
     "people analytics", "workforce analytics", "hr analytics", "hr transformation",
     "workforce planning", "hr data", "human capital analytics", "people data",
@@ -55,17 +48,11 @@ ANALYTICS_TERMS = [
     "machine learning", "predictive", "dashboard", "reporting",
 ]
 
-# Adzuna country codes to query. Full list:
-# https://developer.adzuna.com/docs/countries
 ADZUNA_COUNTRIES = ["de", "nl", "fr", "es", "it", "pl", "at"]
-
-# Search keywords tried against every source
 SEARCH_KEYWORDS = [
     "people analytics", "workforce analytics", "HR analytics", "HR transformation",
 ]
-
 JOOBLE_LOCATION = "United Arab Emirates"
-
 MAX_DESC_CHARS = 220
 
 
@@ -81,11 +68,15 @@ def matches_intersection(text: str) -> bool:
 def clean_text(raw: str, limit: int = MAX_DESC_CHARS) -> str:
     text = html.unescape(re.sub(r"<[^>]+>", " ", raw or ""))
     text = re.sub(r"\s+", " ", text).strip()
-    return (text[: limit - 1] + "…") if len(text) > limit else text
+    return (text[: limit - 1] + "...") if len(text) > limit else text
 
 
 def esc(value: str) -> str:
     return html.escape(value or "", quote=True)
+
+
+def job_key(job: dict) -> str:
+    return f"{job['role'].strip().lower()}|{job['company'].strip().lower()}"
 
 
 # ---------------------------------------------------------------------------
@@ -94,7 +85,7 @@ def esc(value: str) -> str:
 
 def fetch_adzuna(country: str, keyword: str, results_per_page: int = 20) -> list:
     if not (ADZUNA_APP_ID and ADZUNA_APP_KEY):
-        print("[adzuna] missing ADZUNA_APP_ID/ADZUNA_APP_KEY — skipping", file=sys.stderr)
+        print("[adzuna] missing ADZUNA_APP_ID/ADZUNA_APP_KEY - skipping", file=sys.stderr)
         return []
 
     url = f"https://api.adzuna.com/v1/api/jobs/{country}/search/1"
@@ -109,7 +100,7 @@ def fetch_adzuna(country: str, keyword: str, results_per_page: int = 20) -> list
         resp = requests.get(url, params=params, timeout=20)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"[adzuna] {country}/{keyword}: request failed — {e}", file=sys.stderr)
+        print(f"[adzuna] {country}/{keyword}: request failed - {e}", file=sys.stderr)
         return []
 
     jobs = []
@@ -131,19 +122,15 @@ def fetch_adzuna(country: str, keyword: str, results_per_page: int = 20) -> list
 
 
 # ---------------------------------------------------------------------------
-# Source: Jooble (UAE)
+# Source: Bundesagentur fuer Arbeit (Germany) - supplementary source
 # ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Source: Bundesagentur für Arbeit (Germany) — supplementary source
-# ---------------------------------------------------------------------------
-# NOT an officially published API. This calls the same REST endpoint the
+# NOT an officially published API. Calls the same REST endpoint the
 # Bundesagentur's own "Jobsuche" app uses internally, documented by the
 # open-data project bundesAPI: https://github.com/bundesAPI/jobsuche-api
-# No personal key needed — 'jobboerse-jobsuche' is the app's own shared
-# client ID, not a secret. Because this is unofficial, it could change or
-# break without notice, and the exact field names below are a best-effort
-# reading of partial docs, not fully confirmed — the debug line will tell
-# you on the first run if they're wrong.
+# No personal key needed - 'jobboerse-jobsuche' is the app's own shared
+# client ID. Because this is unofficial, it could change or break without
+# notice, and these field names are a best-effort reading of partial docs -
+# the debug line below will flag it on the first run if they're wrong.
 
 ARBEITSAGENTUR_URL = "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
 ARBEITSAGENTUR_HEADERS = {
@@ -168,7 +155,7 @@ def fetch_arbeitsagentur(keyword: str, results_size: int = 50) -> list:
         resp = requests.get(ARBEITSAGENTUR_URL, headers=ARBEITSAGENTUR_HEADERS, params=params, timeout=20)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"[arbeitsagentur] {keyword}: request failed — {e}", file=sys.stderr)
+        print(f"[arbeitsagentur] {keyword}: request failed - {e}", file=sys.stderr)
         return []
 
     results = resp.json().get("stellenangebote", [])
@@ -190,13 +177,18 @@ def fetch_arbeitsagentur(keyword: str, results_size: int = 50) -> list:
             "description": clean_text(item.get("beruf", "")) or "See listing for details.",
             "apply_url": f"https://www.arbeitsagentur.de/jobsuche/jobdetail/{refnr}" if refnr else ARBEITSAGENTUR_URL,
             "region": "eu",
-            "source": "Bundesagentur für Arbeit",
+            "source": "Bundesagentur fuer Arbeit",
         })
     return jobs
 
+
+# ---------------------------------------------------------------------------
+# Source: Jooble (UAE)
+# ---------------------------------------------------------------------------
+
 def fetch_jooble(keyword: str, location: str = JOOBLE_LOCATION) -> list:
     if not JOOBLE_API_KEY:
-        print("[jooble] missing JOOBLE_API_KEY — skipping", file=sys.stderr)
+        print("[jooble] missing JOOBLE_API_KEY - skipping", file=sys.stderr)
         return []
 
     url = f"https://jooble.org/api/{JOOBLE_API_KEY}"
@@ -205,7 +197,7 @@ def fetch_jooble(keyword: str, location: str = JOOBLE_LOCATION) -> list:
         resp = requests.post(url, json=payload, timeout=20)
         resp.raise_for_status()
     except requests.RequestException as e:
-        print(f"[jooble] {keyword}: request failed — {e}", file=sys.stderr)
+        print(f"[jooble] {keyword}: request failed - {e}", file=sys.stderr)
         return []
 
     jobs = []
@@ -227,27 +219,77 @@ def fetch_jooble(keyword: str, location: str = JOOBLE_LOCATION) -> list:
 
 
 # ---------------------------------------------------------------------------
+# "New since last run" tracking
+# ---------------------------------------------------------------------------
+
+def load_seen_jobs() -> dict:
+    if not os.path.exists(SEEN_JOBS_PATH):
+        return {}
+    try:
+        with open(SEEN_JOBS_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"[seen_jobs] could not read {SEEN_JOBS_PATH}, starting fresh - {e}", file=sys.stderr)
+        return {}
+
+
+def save_seen_jobs(seen: dict) -> None:
+    with open(SEEN_JOBS_PATH, "w", encoding="utf-8") as f:
+        json.dump(seen, f, indent=2, sort_keys=True)
+
+
+def mark_new_jobs(jobs: list, seen: dict, today: str, first_run: bool) -> None:
+    """Flags job['is_new'] = True for any job whose key isn't already in
+    `seen`, then records every job's key into `seen`. On the very first run
+    (no seen_jobs.json yet), nothing is marked new - it just sets the
+    baseline so tomorrow's comparison has something to compare against."""
+    for job in jobs:
+        key = job_key(job)
+        if key in seen:
+            job["is_new"] = False
+        else:
+            job["is_new"] = not first_run
+            seen[key] = today
+
+
+def prune_seen_jobs(seen: dict, retention_days: int = SEEN_RETENTION_DAYS) -> dict:
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    pruned = {}
+    for key, date_str in seen.items():
+        try:
+            seen_date = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+        if seen_date >= cutoff:
+            pruned[key] = date_str
+    return pruned
+
+
+# ---------------------------------------------------------------------------
 # Assembly
 # ---------------------------------------------------------------------------
 
 def dedupe(jobs: list) -> list:
-    seen = set()
+    seen_keys = set()
     unique = []
     for j in jobs:
-        key = (j["role"].lower().strip(), j["company"].lower().strip())
-        if key in seen:
+        key = job_key(j)
+        if key in seen_keys:
             continue
-        seen.add(key)
+        seen_keys.add(key)
         unique.append(j)
     return unique
 
 
 def render_card(job: dict) -> str:
+    is_new = bool(job.get("is_new"))
+    card_class = "card is-new" if is_new else "card"
+    new_badge = '<span class="new-badge">NEW</span>' if is_new else ""
     return f"""
-      <div class="card">
+      <div class="{card_class}">
         <div class="card-top">
           <div>
-            <p class="role">{esc(job['role'])}</p>
+            <p class="role">{new_badge}{esc(job['role'])}</p>
             <p class="company">{esc(job['company'])}</p>
             <p class="loc mono">{esc(job['location'])}</p>
           </div>
@@ -267,10 +309,11 @@ def render_card(job: dict) -> str:
 def render_cards(jobs: list) -> str:
     if not jobs:
         return '<p class="empty">No matching roles found in today\'s pull.</p>'
-    return "\n".join(render_card(j) for j in jobs)
+    ordered = sorted(jobs, key=lambda j: 0 if j.get("is_new") else 1)
+    return "\n".join(render_card(j) for j in ordered)
 
 
-def build_page(uae_jobs: list, eu_jobs: list) -> str:
+def build_page(uae_jobs: list, eu_jobs: list, new_count: int) -> str:
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         template = f.read()
 
@@ -281,13 +324,17 @@ def build_page(uae_jobs: list, eu_jobs: list) -> str:
         .replace("{{TOTAL_COUNT}}", str(len(uae_jobs) + len(eu_jobs)))
         .replace("{{UAE_COUNT}}", str(len(uae_jobs)))
         .replace("{{EU_COUNT}}", str(len(eu_jobs)))
+        .replace("{{NEW_COUNT}}", str(new_count))
         .replace("{{UAE_CARDS}}", render_cards(uae_jobs))
         .replace("{{EU_CARDS}}", render_cards(eu_jobs))
     )
     return page
 
+
 def main() -> None:
-    captured = datetime.now(timezone.utc).strftime("%d %b %Y")
+    now = datetime.now(timezone.utc)
+    captured = now.strftime("%d %b %Y")
+    today_key = now.strftime("%Y-%m-%d")
 
     uae_jobs, eu_jobs = [], []
 
@@ -307,12 +354,21 @@ def main() -> None:
     uae_jobs = dedupe(uae_jobs)
     eu_jobs = dedupe(eu_jobs)
 
+    seen = load_seen_jobs()
+    first_run = not seen
+    mark_new_jobs(uae_jobs, seen, today_key, first_run)
+    mark_new_jobs(eu_jobs, seen, today_key, first_run)
+    seen = prune_seen_jobs(seen)
+    save_seen_jobs(seen)
+
+    new_count = sum(1 for j in uae_jobs + eu_jobs if j.get("is_new"))
+
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    page = build_page(uae_jobs, eu_jobs)
+    page = build_page(uae_jobs, eu_jobs, new_count)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(page)
 
-    print(f"Wrote {OUTPUT_PATH}: {len(uae_jobs)} UAE roles, {len(eu_jobs)} EU roles.")
+    print(f"Wrote {OUTPUT_PATH}: {len(uae_jobs)} UAE roles, {len(eu_jobs)} EU roles, {new_count} new since last run.")
 
 
 if __name__ == "__main__":
