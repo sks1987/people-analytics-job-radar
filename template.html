@@ -50,6 +50,8 @@
   .card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px;}
   .source-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted-warm);}
   .apply-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--parchment);padding:9px 16px;border-radius:7px;white-space:nowrap;}
+  .new-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--amber);padding:2px 6px;border-radius:4px;margin-right:8px;vertical-align:middle;transform:translateY(-1px);}
+  .card.is-new{border-left:3px solid var(--amber);}
   .empty{font-size:13.5px;color:var(--muted);font-style:italic;}
   .automation-note{margin:20px 6vw 60px;padding:28px 30px;background:var(--panel);border:1px solid var(--panel-line);border-radius:12px;}
   .automation-note h3{margin:0 0 10px;font-size:17px;color:var(--amber);}
@@ -67,6 +69,7 @@
   <div class="status-row">
     <span class="status-chip"><span class="dot"></span>Last refreshed {{SNAPSHOT_DATE}}</span>
     <span class="status-chip">{{TOTAL_COUNT}} roles &middot; 2 regions</span>
+    <span class="status-chip" style="border-color:var(--amber);color:var(--amber);">{{NEW_COUNT}} new since last run</span>
   </div>
 </header>
 
